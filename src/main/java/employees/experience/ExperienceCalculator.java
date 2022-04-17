@@ -10,8 +10,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExperienceCalculator {
 
+    /**
+     * Retrieves the total amount of overlapping months from the employee's experiences.
+     */
     public static long getTotalOverlappingMonths(EmployeeProjectExperience firstEmployeeExperience,
-                                                EmployeeProjectExperience secondEmployeeExperience) {
+                                                 EmployeeProjectExperience secondEmployeeExperience) {
         long totalExperience = 0;
 
         for (var firstEmployeeDateRange : firstEmployeeExperience.getProjectExperience()) {
@@ -20,10 +23,12 @@ public class ExperienceCalculator {
             }
         }
 
-
         return totalExperience;
     }
 
+    /**
+     * Checks if there is an overlap in the provided date ranges.
+     */
     public static boolean hasOverlappingMonths(List<DateRange> dateRangeList) {
         for (int i = 0; i < dateRangeList.size() - 1; i++) {
             for (int j = i + 1; j < dateRangeList.size(); j++) {
@@ -36,6 +41,10 @@ public class ExperienceCalculator {
         return false;
     }
 
+    /**
+     * Retrieves the overlap in months.
+     * @return 0 if there is no overlap, otherwise returns a positive number.
+     */
     public static long getOverlappingMonths(DateRange firstRange, DateRange secondRange) {
         var areOverlapping = firstRange.getFromDate().isBefore(secondRange.getToDate())
                 && secondRange.getFromDate().isBefore(firstRange.getToDate());

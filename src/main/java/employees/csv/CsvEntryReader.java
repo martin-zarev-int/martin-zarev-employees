@@ -11,6 +11,9 @@ import java.util.List;
 
 import static employees.csv.FieldPositions.*;
 
+/**
+ * CSV reader which requires a {@link DateTimeFormatter} in order to properly parse dates.
+ */
 public class CsvEntryReader {
     private static final String NULL_ENTRY = "NULL";
 
@@ -22,6 +25,11 @@ public class CsvEntryReader {
         this.currentLocalDate = LocalDate.now();
     }
 
+    /**
+     * Creates a {@link CSVReader} which is then used to extract the entries.
+     * @param reader For reading character streams.
+     * @return List of the extracted {@link CsvEntry} objects.
+     */
     public List<CsvEntry> getCsvEntries(Reader reader) throws IOException {
         try (CSVReader csvReader = new CSVReader(reader)) {
 

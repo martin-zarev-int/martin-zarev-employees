@@ -22,7 +22,7 @@ public class CsvService {
         try (var reader = Files.newBufferedReader(path)) {
             return csvEntryReader.getCsvEntries(reader);
         } catch (IOException ioException) {
-            log.error("System was not able to retrieve employees.csv data.");
+            log.error("System was not able to retrieve csv data.");
         }
 
         return List.of();
@@ -34,7 +34,7 @@ public class CsvService {
         try (var reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             return csvEntryReader.getCsvEntries(reader);
         } catch (IOException ioException) {
-            log.error("System was not able to retrieve employees.csv data.");
+            log.error("System was not able to retrieve csv data.");
         }
 
         return List.of();

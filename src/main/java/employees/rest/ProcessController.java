@@ -1,5 +1,6 @@
 package employees.rest;
 
+import employees.csv.CsvEntry;
 import employees.csv.SupportedDateTypes;
 import employees.services.CsvService;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.format.DateTimeParseException;
+import java.util.List;
 
 import static employees.services.ExperienceService.*;
 
@@ -30,7 +34,14 @@ public class ProcessController {
         }
 
         var dateTimeFormatter = SupportedDateTypes.valueOf(dateType).getDateTimeFormatter();
-        var csvEntryList = CsvService.retrieveCsvEntries(csvFile, dateTimeFormatter);
+        List<CsvEntry> csvEntryList;
+        try {
+            csvEntryList = CsvService.retrieveCsvEntries(csvFile, dateTimeFormatter);
+        } catch(DateTimeParseException | NumberFormatException ex) {
+            return csvProcessErrorMessage("Exception was thrown while processing the CSV file: " + ex.getMessage(),
+                    model);
+        }
+
         var pairExperienceList = getPairExperienceList(csvEntryList);
         var pairWithTheMostOverlappingOptional = getPairWithTheMostOverlappingExperience(pairExperienceList);
 
