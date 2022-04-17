@@ -27,7 +27,7 @@ public class ExperienceService {
     }
 
     /**
-     * Finds the pair which have worked together the most.
+     * Finds the pair which has the most overlapping.
      */
     public static Optional<PairExperience> getPairWithTheMostOverlappingExperience(List<PairExperience> pairList) {
         return pairList.stream().max(comparing(PairExperience::getOverlappingMonths));
