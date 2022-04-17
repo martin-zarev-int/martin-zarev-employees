@@ -1,4 +1,4 @@
-package experience;
+package employees.experience;
 
 import lombok.Getter;
 
@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 public class EmployeeProjectExperience {
-    private static final String EXCEPTION_FORMAT = "Employee %s can not have overlapping experience with themself.";
+    private static final String EXCEPTION_FORMAT = "Employee %s can not have overlapping employees.experience with themself.";
 
     private final long employeeId;
     private final long projectId;

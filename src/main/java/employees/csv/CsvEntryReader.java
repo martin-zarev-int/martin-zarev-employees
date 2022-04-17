@@ -1,35 +1,29 @@
-package csv;
+package employees.csv;
 
 import com.opencsv.CSVReader;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.Reader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static csv.FieldPositions.*;
+import static employees.csv.FieldPositions.*;
 
 public class CsvEntryReader {
     private static final String NULL_ENTRY = "NULL";
 
     private final DateTimeFormatter dateTimeFormatter;
-    private final Path filePath;
     private final LocalDate currentLocalDate;
 
-    public CsvEntryReader(DateTimeFormatter dateTimeFormatter, Path filePath) {
+    public CsvEntryReader(DateTimeFormatter dateTimeFormatter) {
         this.dateTimeFormatter = dateTimeFormatter;
-        this.filePath = filePath;
-
         this.currentLocalDate = LocalDate.now();
     }
 
-    public List<CsvEntry> getCsvEntries() throws IOException {
-
-        try (var reader = Files.newBufferedReader(filePath);
-             CSVReader csvReader = new CSVReader(reader)) {
+    public List<CsvEntry> getCsvEntries(Reader reader) throws IOException {
+        try (CSVReader csvReader = new CSVReader(reader)) {
 
             return extractEntries(csvReader);
         }
