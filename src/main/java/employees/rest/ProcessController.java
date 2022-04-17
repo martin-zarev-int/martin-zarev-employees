@@ -1,5 +1,6 @@
 package employees.rest;
 
+import employees.csv.SupportedDateTypes;
 import employees.services.CsvService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,26 +9,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.format.DateTimeFormatter;
-
 import static employees.services.ExperienceService.*;
 
 @Controller
 public class ProcessController {
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("options", SupportedDateTypes.values());
+
         return "index";
     }
 
     @PostMapping("/process-csv")
-    public String processCsv(@RequestParam("file") MultipartFile csvFile, Model model) {
+    public String processCsv(@RequestParam("file") MultipartFile csvFile, @RequestParam("dateType") String dateType,
+                             Model model) {
 
         if (csvFile.isEmpty()) {
             return csvProcessErrorMessage("Please select a CSV file.", model);
         }
 
-        var csvEntryList = CsvService.retrieveCsvEntries(csvFile, DateTimeFormatter.ISO_DATE);
+        var dateTimeFormatter = SupportedDateTypes.valueOf(dateType).getDateTimeFormatter();
+        var csvEntryList = CsvService.retrieveCsvEntries(csvFile, dateTimeFormatter);
         var pairExperienceList = getPairExperienceList(csvEntryList);
         var pairWithTheMostOverlappingOptional = getPairWithTheMostOverlappingExperience(pairExperienceList);
 
